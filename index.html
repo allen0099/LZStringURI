@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Decode/encode</title>
+    <style>
+        #decode {
+            width: 50%;
+            min-height: 210px;
+        }
+
+        #encode {
+            width: 50%;
+            min-height: 210px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/base64-string.js"></script>
+</head>
+<body>
+<h1>Input</h1>
+<textarea id="decode">
+    N4IgDg9glgdgLiAXCADCANCANgUwG45ZIgD6amARhACYCexZGIcAhrvA+SDCwLY7FA5JqBaOUCUmkwDuEAE5ZqSANohAX+qA4TxABdTFNnUAKlH4BnJCkxYoAMwHIALAE4A7EzAsjcADJWbIAMxNeCBgcemQARhQuaRwYCAkYYgiudxYYagAFaA5wpiMAaygsLBNEBS0QKDgcXhKyzErqgGEId0TIyKYG3gBJeBxpPDZiAFYQAF8gA
+</textarea><br>
+<button type="button" id="dbtn">Decode</button>
+<br>
+<textarea id="encode">{
+  "point": "0",
+  "level": "_0",
+  "body": "_0",
+  "talent": "_0",
+  "name": "大中天",
+  "world": [
+    "基礎"
+  ],
+  "worldTimes": 0,
+  "life": "497",
+  "pastLife": "3",
+  "money": "100",
+  "renown": "100",
+  "standPoint": "1",
+  "skills": [],
+  "items": [],
+  "itemCost": "10000",
+  "itemInterval": "5"
+}</textarea><br>
+<button type="button" id="ebtn">Encode</button>
+<h1>Output</h1>
+<pre>
+<code id="output">Press button to show result.</code></pre>
+<script>
+    var dcode = document.getElementById('decode');
+    var dbutton = document.getElementById('dbtn');
+    var ecode = document.getElementById('encode');
+    var ebutton = document.getElementById('ebtn');
+    var output = document.getElementById('output');
+
+    dbutton.addEventListener('click', () => {
+        var value = dcode.value;
+        // var decoded = JSON.parse(LZString.decompressFromBase64(value))
+        var decoded = LZString.decompressFromEncodedURIComponent(value);
+        if (!decoded) {
+            alert("不正確的資料");
+            return;
+        }
+        output.innerHTML = JSON.stringify(JSON.parse(decoded), null, '  ');
+    });
+
+    ebutton.addEventListener('click', () => {
+        var value = ecode.value;
+        output.innerHTML = LZString.compressToEncodedURIComponent(JSON.stringify(JSON.parse(value)));
+    });
+</script>
+</body>
+</html>
